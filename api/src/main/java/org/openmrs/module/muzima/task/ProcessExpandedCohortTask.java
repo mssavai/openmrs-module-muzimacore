@@ -18,7 +18,7 @@ import org.openmrs.api.context.Context;
 public class ProcessExpandedCohortTask extends AbstractTask{
     private ExpandedCohortProcessor processor;
     public ProcessExpandedCohortTask(){
-        this.processor=new ExpandedCohortProcessor();
+        this.processor=ExpandedCohortProcessor.getInstance();
     }
     @Override
     public void execute() {

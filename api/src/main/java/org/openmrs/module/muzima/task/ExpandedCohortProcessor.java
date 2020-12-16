@@ -26,6 +26,25 @@ import java.util.List;
 public class ExpandedCohortProcessor {
     private final Log log = LogFactory.getLog(ExpandedCohortProcessor.class);
     private static Boolean isRunning = false;
+    private static ExpandedCohortProcessor expandedCohortProcessor;
+
+    public static ExpandedCohortProcessor getInstance(){
+        if(expandedCohortProcessor == null){
+            expandedCohortProcessor = new ExpandedCohortProcessor();
+            new java.util.Timer().schedule(
+                    new java.util.TimerTask() {
+                        @Override
+                        public void run() {
+                            Context.openSession();
+                            expandedCohortProcessor.processExpandedCohorts();
+                            Context.closeSession();
+                        }
+                    },
+                    120000
+            );
+        }
+        return expandedCohortProcessor;
+    }
     public void processExpandedCohorts() {
         if (!isRunning) {
             log.info("Starting up Expanded cohort processor ...");
